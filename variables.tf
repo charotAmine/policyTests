@@ -1,6 +1,6 @@
 variable "policy_folder" {
   type = string
-  default = "./policies"
+  default = "./policies/"
 }
 
 variable "name_space" {
