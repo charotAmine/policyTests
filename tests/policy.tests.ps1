@@ -6,7 +6,7 @@ describe 'Deploy a public storage' {
         terraform plan
         $output = terraform apply -auto-approve 
         write-output "MY OUTPUT : $output"
-        $policyName = "articlePost_PA"
+        $policyName = "articlePost_P5A"
         "$output" -like "*$policyName*" | Should -Be $true
     }
 }
