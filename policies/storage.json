@@ -1,0 +1,52 @@
+{
+    "properties": {
+      "displayName": "storage-vnet-required",
+      "policyType": "Custom",
+      "mode": "All",
+      "metadata": {
+        "createdBy": "c66f7313-8428-4630-bc88-1af394aa81e3",
+        "createdOn": "2021-09-08T19:01:33.6508977Z",
+        "updatedBy": "c66f7313-8428-4630-bc88-1af394aa81e3",
+        "updatedOn": "2021-09-08T19:50:38.1991989Z"
+      },
+      "parameters": {},
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Storage/storageAccounts"
+            },
+            {
+              "anyOf": [
+                {
+                  "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
+                  "notEquals": "Deny"
+                },
+                {
+                  "count": {
+                    "field": "Microsoft.Storage/storageAccounts/networkAcls.virtualNetworkRules[*]"
+                  },
+                  "Equals": 0
+                }
+              ]
+            }
+          ]
+        },
+        "then": {
+          "effect": "deny"
+        }
+      }
+    },
+    "id": "/subscriptions/52be40b0-4ac4-48c9-ab65-06ff217acfd6/providers/Microsoft.Authorization/policyDefinitions/70394b18-01df-4779-bc6a-4572cc351abd",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "70394b18-01df-4779-bc6a-4572cc351abd",
+    "systemData": {
+      "createdBy": "charotamine@outlook.com",
+      "createdByType": "User",
+      "createdAt": "2021-09-08T19:01:33.6289873Z",
+      "lastModifiedBy": "charotamine@outlook.com",
+      "lastModifiedByType": "User",
+      "lastModifiedAt": "2021-09-08T19:50:38.1664476Z"
+    }
+  }
