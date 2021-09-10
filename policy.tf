@@ -8,6 +8,7 @@ locals {
         policy => jsondecode(file(join("", [var.policy_folder, policy, ".json"])))
   }
 }
+
 data "azurerm_subscription" "current" {}
 
 resource "azurerm_policy_definition" "policy" {
