@@ -8,6 +8,7 @@ locals {
         policy => jsondecode(file(join("", [var.policy_folder, policy, ".json"])))
   }
 }
+data "azurerm_subscription" "current" {}
 
 resource "azurerm_policy_definition" "policy" {
   for_each = local.policy_json
@@ -39,3 +40,18 @@ resource "azurerm_policy_set_definition" "policy_set" {
   }
   policy_definitions = jsonencode([ for p in local.policy_files_without_extension: {"policyDefinitionId": azurerm_policy_definition.policy[p].id }])
 }
+
+resource "azurerm_policy_assignment" "policy_assignment" {
+  name    = join("", [var.name_space, "_PA"])
+  scope   = data.azurerm_subscription.current.id
+
+  policy_definition_id = azurerm_policy_set_definition.policy_set.id
+  description          = join("", [var.name_space, ": policy assignment"])
+  display_name         = join("", [var.name_space, "_PA"])
+  location             = var.location
+
+  identity {
+    type = "SystemAssigned"
+  }
+}
+
